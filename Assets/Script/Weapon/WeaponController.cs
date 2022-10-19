@@ -9,6 +9,7 @@ public class WeaponController : MonoBehaviour
 	GameObject bulletPrefap;
 	GameObject bulletPoint;
 	public bool isShoot;
+	private float elaspedSpawnTime;
     private void Awake()
     {
 		instance = this;
@@ -28,16 +29,19 @@ public class WeaponController : MonoBehaviour
 
 	void Update()
 	{
+		elaspedSpawnTime += Time.deltaTime;
 		//Gets the input from the jostick
 		if (Mathf.Abs(joystick.Horizontal) > 0.1f || Mathf.Abs(joystick.Vertical) > 0.1f)
 		{
 			isShoot = true;
 			Rotation(0);
+			
 		}
 		else
         {
 			isShoot = false;
 		}
+		
 
 
 		
@@ -48,17 +52,22 @@ public class WeaponController : MonoBehaviour
     {
         if (isShoot)
         {
-			GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
-			Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
-			bullet_body.AddForce((bulletPoint.transform.position - transform.position) * 3, ForceMode2D.Impulse);
+			if(elaspedSpawnTime > 0.5f)
+            {
+				GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
+				bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+				Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
+				bullet_body.AddForce((bulletPoint.transform.position - transform.position) * 5, ForceMode2D.Impulse);
+				elaspedSpawnTime = 0f;
+			}
 			GameobjectRotation = new Vector2(joystick.Horizontal, joystick.Vertical);
-			if (joystick.Horizontal > 0.1)
+			if (joystick.Horizontal > 0.01)
 			{
 				//Rotates the object if the player is facing right
 				GameobjectRotation2 = GameobjectRotation.x + GameobjectRotation.y * 90;
 				transform.rotation = Quaternion.Euler(0f, 0f, GameobjectRotation2);
 			}
-			else if (joystick.Horizontal < -0.1)
+			else if (joystick.Horizontal < -0.01)
 			{
 				//Rotates the object if the player is facing left
 				GameobjectRotation2 = GameobjectRotation.x + GameobjectRotation.y * -90;
