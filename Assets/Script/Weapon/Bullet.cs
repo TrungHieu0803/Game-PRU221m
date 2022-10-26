@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     Timer bullet_timer;
     public float Impulse = 100f;
     private string layerName;
+    public float damage;
     void Start()
     {
         layerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;

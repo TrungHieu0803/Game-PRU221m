@@ -52,28 +52,29 @@ public class WeaponController : MonoBehaviour
     {
         if (isShoot)
         {
-			if(elaspedSpawnTime > 0.5f)
+			if(elaspedSpawnTime > 0.2f)
             {
 				GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
 				bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+				bullet.gameObject.GetComponent<Bullet>().damage = 10f;
 				Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
-				bullet_body.AddForce((bulletPoint.transform.position - transform.position) * 5, ForceMode2D.Impulse);
+				bullet_body.AddForce((bulletPoint.transform.position - transform.position) * 7, ForceMode2D.Impulse);
 				elaspedSpawnTime = 0f;
 			}
 			GameobjectRotation = new Vector2(joystick.Horizontal, joystick.Vertical);
-			if (joystick.Horizontal > 0.01)
+			if (joystick.Horizontal > 0.02)
 			{
 				//Rotates the object if the player is facing right
 				GameobjectRotation2 = GameobjectRotation.x + GameobjectRotation.y * 90;
 				transform.rotation = Quaternion.Euler(0f, 0f, GameobjectRotation2);
 			}
-			else if (joystick.Horizontal < -0.01)
+			else if (joystick.Horizontal < -0.02)
 			{
 				//Rotates the object if the player is facing left
 				GameobjectRotation2 = GameobjectRotation.x + GameobjectRotation.y * -90;
 				transform.rotation = Quaternion.Euler(0f, 180f, -GameobjectRotation2);
 			}
-			
+
 		}
 		else
         {

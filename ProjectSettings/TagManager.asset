@@ -9,6 +9,8 @@ TagManager:
   - Walls
   - Walls2
   - Walls3
+  - Bullet
+  - Altar
   layers:
   - Default
   - TransparentFX
