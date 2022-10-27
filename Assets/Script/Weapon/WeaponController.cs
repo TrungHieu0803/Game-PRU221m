@@ -10,9 +10,17 @@ public class WeaponController : MonoBehaviour
 	GameObject bulletPoint;
 	public bool isShoot;
 	private float elaspedSpawnTime;
+	
     private void Awake()
     {
-		instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     private void Start()
@@ -33,7 +41,8 @@ public class WeaponController : MonoBehaviour
 		//Gets the input from the jostick
 		if (Mathf.Abs(joystick.Horizontal) > 0.1f || Mathf.Abs(joystick.Vertical) > 0.1f)
 		{
-			isShoot = true;
+            
+            isShoot = true;
 			Rotation(0);
 			
 		}
@@ -52,9 +61,11 @@ public class WeaponController : MonoBehaviour
     {
         if (isShoot)
         {
-			if(elaspedSpawnTime > 0.2f)
+            
+            if (elaspedSpawnTime > 0.2f)
             {
-				GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
+                SoundController.instance.playSound();
+                GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
 				bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
 				bullet.gameObject.GetComponent<Bullet>().damage = 10f;
 				Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();

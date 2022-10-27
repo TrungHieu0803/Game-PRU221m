@@ -67,6 +67,7 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
             currentHealth = -1;
             agent.speed = 0;
             animator.SetTrigger("Death");
+            SoundController.instance.playSound1();
             Destroy(gameObject, 1f);
         }
     }

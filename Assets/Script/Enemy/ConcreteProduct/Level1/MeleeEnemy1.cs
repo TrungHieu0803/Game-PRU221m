@@ -60,6 +60,7 @@ public class MeleeEnemy1 : MonoBehaviour, IMeleeEnemy
             if (currentHealth < 0)
             {
                 healthBarCanvas.enabled = false;
+                
                 isDead = true;
             }
         }
@@ -68,6 +69,7 @@ public class MeleeEnemy1 : MonoBehaviour, IMeleeEnemy
             currentHealth = -1;
             agent.speed = 0;
             animator.SetTrigger("Death");
+            SoundController.instance.playSound1();
             Destroy(gameObject, 1.1f);
         }
     }
