@@ -31,7 +31,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemyFactory
         }, enemy =>
         {
             Destroy(enemy);
-        }, false, 10, 100
+        }, false, 10, 20
         );
 
         poolRange = new ObjectPool<GameObject>(() =>
@@ -46,7 +46,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemyFactory
         }, enemy =>
         {
             Destroy(enemy);
-        }, false, 10, 100
+        }, false, 10, 20
 );
     }
 

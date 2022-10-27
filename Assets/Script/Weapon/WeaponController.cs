@@ -4,29 +4,32 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-	public static WeaponController instance;
+	
 	[SerializeField]
-	GameObject bulletPrefap;
-	GameObject bulletPoint;
-	public bool isShoot;
+	private GameObject bulletPrefap;
+    [SerializeField]
+	private GameObject bulletPoint;
+	[SerializeField]
+	private float spawnDuration;
+	[SerializeField]
+	private float bulletDamge;
+	[SerializeField]
+	private float bulletSpeed;
+	[SerializeField]
+	private Weapons weapons;
 	private float elaspedSpawnTime;
+	private bool isShoot;
+	
 	
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            instance = this;
-        }
+        
     }
 
     private void Start()
     {
 		isShoot = false;
-		bulletPoint = GameObject.FindGameObjectWithTag("Gun");
+		
 	}
     // Start is called before the first frame update
     public Joystick joystick;
@@ -41,7 +44,8 @@ public class WeaponController : MonoBehaviour
 		//Gets the input from the jostick
 		if (Mathf.Abs(joystick.Horizontal) > 0.1f || Mathf.Abs(joystick.Vertical) > 0.1f)
 		{
-            
+
+			
             isShoot = true;
 			Rotation(0);
 			
@@ -51,25 +55,21 @@ public class WeaponController : MonoBehaviour
 			isShoot = false;
 		}
 		
-
-
-		
 	}
-
 
 	public void Rotation( int direction)
     {
         if (isShoot)
         {
             
-            if (elaspedSpawnTime > 0.2f)
+            if (elaspedSpawnTime > spawnDuration)
             {
-                SoundController.instance.playSound();
+                SoundController.instance.PlaySoundWeapon(weapons);
                 GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
 				bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
-				bullet.gameObject.GetComponent<Bullet>().damage = 10f;
+				bullet.gameObject.GetComponent<Bullet>().damage = bulletDamge;
 				Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
-				bullet_body.AddForce((bulletPoint.transform.position - transform.position) * 7, ForceMode2D.Impulse);
+				bullet_body.AddForce((bulletPoint.transform.position - transform.position) * bulletSpeed, ForceMode2D.Impulse);
 				elaspedSpawnTime = 0f;
 			}
 			GameobjectRotation = new Vector2(joystick.Horizontal, joystick.Vertical);

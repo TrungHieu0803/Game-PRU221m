@@ -6,7 +6,14 @@ public class SoundController : MonoBehaviour
 {
     public static SoundController instance { get; private set; }
 
-    public AudioClip shootingSound;
+    [SerializeField]
+    private AudioClip UZI;
+    [SerializeField]
+    private AudioClip aka47;
+    [SerializeField]
+    private AudioClip bazooka;
+    [SerializeField]
+    private AudioClip tazer;
     public AudioClip enemyDeath;
 
     private AudioSource audioSource;
@@ -30,9 +37,23 @@ public class SoundController : MonoBehaviour
         audioSource.PlayOneShot(audioClip);
     }
 
-    public void playSound()
+    public void PlaySoundWeapon(Weapons weapon)
     {
-        PlayAudioClip(shootingSound);
+        switch (weapon)
+        {
+            case Weapons.AKA47:
+                PlayAudioClip(aka47);
+                break;
+            case Weapons.UZI:
+                PlayAudioClip(UZI);
+                break;
+            case Weapons.BAZOOKA:
+                PlayAudioClip(bazooka);
+                break;
+            case Weapons.TAZER:
+                PlayAudioClip(tazer);
+                break;
+        }
     }
     public void playSound1()
     {

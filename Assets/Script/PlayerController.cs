@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private Joystick joystick;
+    public GameObject weapon;
     private void Awake()
     {
         Instance = this;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        weapon = GameObject.FindGameObjectWithTag("Weapon");
     }
 
 
@@ -27,20 +29,23 @@ public class PlayerController : MonoBehaviour
         {
             dir.x = -1;
 
-            WeaponController.instance.Rotation(-1);
+            weapon.GetComponent<WeaponController>().Rotation(-1);
+        //    WeaponController.instance.Rotation(-1);
             animator.SetInteger("Direction", -1);
 
         }
         else if (joystick.Horizontal > 0.5f)
         {
             dir.x = 1;
-            WeaponController.instance.Rotation(1);
+            weapon.GetComponent<WeaponController>().Rotation(1);
+            // WeaponController.instance.Rotation(1);
             animator.SetInteger("Direction", 1);
 
         }
         else
         {
-            WeaponController.instance.Rotation(1);
+            weapon.GetComponent<WeaponController>().Rotation(1);
+            //  WeaponController.instance.Rotation(1);
             animator.SetInteger("Direction", 0);
         }
 
