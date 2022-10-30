@@ -269,6 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarSprite: {fileID: 4574747262354676159}
   healthBarCanvas: {fileID: 4574747263493007345}
+  spellPrefab: {fileID: 6960441753081606601, guid: 9b9db6c1cdd8d284fb1541517129012d,
+    type: 3}
   showPath: 0
   showAhead: 0
 --- !u!1 &4574747262403650189

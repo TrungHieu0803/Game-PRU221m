@@ -57,6 +57,7 @@ public class WeaponController : MonoBehaviour
 
 	public void Rotation( int direction)
     {
+		
         if (isShoot)
         {
 			
@@ -65,16 +66,11 @@ public class WeaponController : MonoBehaviour
             {
 				transform.rotation = Quaternion.LookRotation(Vector3.forward, moveVector);
             }
-			if (elaspedSpawnTime > spawnDuration)
-			{
-				SoundController.instance.PlaySoundWeapon(weapons);
-				GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
-				bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
-				bullet.gameObject.GetComponent<Bullet>().damage = bulletDamge;
-				Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
-				bullet_body.AddForce((bulletPoint.transform.position - transform.position) * bulletSpeed, ForceMode2D.Impulse);
-				elaspedSpawnTime = 0f;
-			}
+            if (elaspedSpawnTime > spawnDuration)
+            {
+                SpawnBullet();
+            }
+           
 		}
 		else
         {
@@ -88,5 +84,16 @@ public class WeaponController : MonoBehaviour
 			}
         }
     }
+
+	private void SpawnBullet()
+    {
+		SoundController.instance.PlaySoundWeapon(weapons);
+		GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
+		bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+		bullet.gameObject.GetComponent<Bullet>().damage = bulletDamge;
+		Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
+		bullet_body.AddForce((bulletPoint.transform.position - transform.position) * bulletSpeed, ForceMode2D.Impulse);
+		elaspedSpawnTime = 0f;
+	}
 
 }

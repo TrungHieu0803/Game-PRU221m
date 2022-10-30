@@ -61,8 +61,6 @@ public class PlayerController : MonoBehaviour
         }
 
         dir.Normalize();
-
-
         GetComponent<Rigidbody2D>().velocity = speed * dir;
     }
 }
