@@ -23,6 +23,7 @@ namespace Cainos.PixelArtTopDown_Basic
         {
             if (target == null) return;
             transform.position = new Vector3(Mathf.Clamp(target.position.x, leftLimit, rightLimit), Mathf.Clamp(target.position.y, downLimit, upLimit), transform.position.z);
+        
         }
 
     }
