@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour
 {
     public void PlayGameButton()
     {
-        SceneManager.LoadScene("SC All Props");
+        Application.LoadLevel("SC Pixel Art Top Down - Basic");
 
     }
     public void QuitGameButton()
