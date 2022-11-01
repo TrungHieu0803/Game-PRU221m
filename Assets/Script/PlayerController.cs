@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,13 +11,19 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private Joystick joystick;
+    [SerializeField]
+    private Image healthBarSprite;
     public GameObject weapon;
+    private float maxHealth;
+    public float currentHealth;
     private void Awake()
     {
         Instance = this;
     }
     private void Start()
     {
+        maxHealth = 100;
+        currentHealth = maxHealth;
         animator = GetComponent<Animator>();
         weapon = GameObject.FindGameObjectWithTag("Weapon");
     }
@@ -62,5 +69,11 @@ public class PlayerController : MonoBehaviour
 
         dir.Normalize();
         GetComponent<Rigidbody2D>().velocity = speed * dir;
+        UpdateHealthBar();
+    }
+
+    private void UpdateHealthBar()
+    {
+        healthBarSprite.fillAmount = currentHealth / maxHealth;
     }
 }

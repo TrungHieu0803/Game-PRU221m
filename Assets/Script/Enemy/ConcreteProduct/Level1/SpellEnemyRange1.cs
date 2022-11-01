@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpellEnemyRange1 : MonoBehaviour
 {
     private bool isHit;
+    public float damage;
     
     void Start()
     {
@@ -17,7 +18,8 @@ public class SpellEnemyRange1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+       
     }
 
     private IEnumerator Active()
@@ -28,9 +30,10 @@ public class SpellEnemyRange1 : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player" && !isHit )
+        
+        if (collision.gameObject.tag == "Player" && !isHit )
         {
-            
+            PlayerController.Instance.currentHealth -= damage;
             isHit = true;
         }
     }

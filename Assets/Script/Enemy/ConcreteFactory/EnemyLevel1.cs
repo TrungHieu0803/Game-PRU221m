@@ -65,13 +65,4 @@ public class EnemyLevel1 : MonoBehaviour, IEnemyFactory
         enemy.transform.position = position;
         return enemy;
     }
-
-    // Start is called before the first frame update
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -7,5 +7,7 @@ public enum Weapons
     AKA47,
     UZI,
     BAZOOKA,
-    TAZER
+    TAZER,
+    PISTOL,
+    NULL
 }

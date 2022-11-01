@@ -17,6 +17,8 @@ public class WeaponController : MonoBehaviour
 	private float bulletSpeed;
 	[SerializeField]
 	private Weapons weapons;
+	[SerializeField]
+	public int bulletStock;
 	public Joystick joystick;
 	private float elaspedSpawnTime;
 	private bool isShoot;
@@ -30,7 +32,6 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
 		isShoot = false;
-		
 	}
     // Start is called before the first frame update
     
@@ -38,6 +39,8 @@ public class WeaponController : MonoBehaviour
 
 	void Update()
 	{
+
+		
 		elaspedSpawnTime += Time.deltaTime;
 		//Gets the input from the jostick
 		if (Mathf.Abs(joystick.Horizontal) > 0.5f || Mathf.Abs(joystick.Vertical) > 0.5f)
@@ -87,13 +90,25 @@ public class WeaponController : MonoBehaviour
 
 	private void SpawnBullet()
     {
-		SoundController.instance.PlaySoundWeapon(weapons);
-		GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
-		bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
-		bullet.gameObject.GetComponent<Bullet>().damage = bulletDamge;
-		Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
-		bullet_body.AddForce((bulletPoint.transform.position - transform.position) * bulletSpeed, ForceMode2D.Impulse);
-		elaspedSpawnTime = 0f;
+		if(bulletStock > 0)
+        {
+			SoundController.instance.PlaySoundWeapon(weapons);
+			GameObject bullet = Instantiate<GameObject>(bulletPrefap, bulletPoint.transform.position, bulletPoint.transform.rotation);
+			bullet.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+			bullet.gameObject.GetComponent<Bullet>().damage = bulletDamge;
+			Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
+			bullet_body.AddForce((bulletPoint.transform.position - transform.position) * bulletSpeed, ForceMode2D.Impulse);
+			elaspedSpawnTime = 0f;
+			bulletStock--;
+		}
 	}
 
+	public void SetBulletStock(int bullets)
+    {
+		bulletStock += bullets;
+		if(bulletStock > 999)
+        {
+			bulletStock = 999;
+        }
+    }
 }

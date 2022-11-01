@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
         if(elapsedSpawnTime >= 3)
         {
             int randomAltar = Random.Range(0, altar.Length);
-            
             enemyFactory.CreateFactory(EnemyLevel.LEVEL1).MeleeEnemy(altar[randomAltar].transform.position);
             enemyFactory.CreateFactory(EnemyLevel.LEVEL1).RangeEnemy(altar[randomAltar].transform.position);    
             elapsedSpawnTime = 0f;

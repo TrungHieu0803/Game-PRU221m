@@ -278,6 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarSprite: {fileID: 9056646753625937539}
   healthBarCanvas: {fileID: 9056646752815664466}
+  damage: 10
   showPath: 0
   showAhead: 0
 --- !u!1 &9056646752815664470

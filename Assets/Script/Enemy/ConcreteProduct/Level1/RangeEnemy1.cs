@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
@@ -13,6 +14,8 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
     private Canvas healthBarCanvas;
     [SerializeField]
     private GameObject spellPrefab;
+    [SerializeField]
+    private float damage;
     private NavMeshAgent agent;
     public bool showPath;
     public bool showAhead;
@@ -22,10 +25,25 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
     private float currentHealth;
     private bool isDead;
     private float spellDuration;
+    private ObjectPool<GameObject> poolSpell;
 
     // Start is called before the first frame update
     void Start()
     {
+        poolSpell = new ObjectPool<GameObject>(() =>
+        {
+            return Instantiate(spellPrefab);
+        }, spell =>
+        {
+            spell.SetActive(true);
+        }, spell =>
+        {
+            spell.SetActive(false);
+        }, spell =>
+        {
+            Destroy(spell);
+        }, false, 10, 20
+       );
         spellDuration = 0;
         isDead = false;
         maxHealth = 100;
@@ -45,7 +63,6 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
         animator.SetFloat("Fly", agent.nextPosition.x - currentPosition.x);
         currentPosition = transform.position;
         Hit();
-
     }
 
     public void UpdateHealthBar()
@@ -74,6 +91,7 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
             animator.SetTrigger("Death");
             SoundController.instance.playSound1();
             Destroy(gameObject, 1f);
+            AmmoSpawner.Instance.SpawnRandomAmmo(currentPosition);
         }
     }
 
@@ -94,8 +112,10 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
             if (spellDuration > 3f)
             {
                 spellDuration = 0f;
-                GameObject spell = Instantiate<GameObject>(spellPrefab, PlayerController.Instance.transform.position, Quaternion.identity);
+                GameObject spell = poolSpell.Get();
+                spell.transform.position = PlayerController.Instance.transform.position;
                 spell.GetComponent<CircleCollider2D>().enabled = false;
+                spell.GetComponent<SpellEnemyRange1>().damage = damage;
 
             }
         }
