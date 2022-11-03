@@ -22,15 +22,17 @@ public class GameManager : MonoBehaviour
         instance = this;
         enemyFactory = new EnemyFactory();
         path = $"{Application.persistentDataPath}/";
+        
     }
     void Start()
     {
-       
         isSave = false;
         elapsedSpawnTime = 0;
         altar = GameObject.FindGameObjectsWithTag("Altar");
-        LoadGame();
-
+        if (LevelLoader.Instance.isLoad)
+        {
+            LoadGame();
+        }
     }
 
     // Update is called once per frame
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
         var weapons = JsonConvert.DeserializeObject<List<WeaponModel>>(weaponJson);
         var bullets = JsonConvert.DeserializeObject<List<BulletModel>>(bulletJson);
         var enemies = JsonConvert.DeserializeObject<List<EnemyModel>>(enemyJson);
-        
+
         PlayerController.Instance.transform.position = new Vector3(player.positionX, player.positionY, 0f);
         PlayerController.Instance.currentHealth = player.currentHealth;
 
