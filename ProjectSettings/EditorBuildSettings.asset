@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scene/SC All Props.unity
+    guid: d9a9fd5182a4025429c97a869864056e
+  - enabled: 1
+    path: Assets/Scene/Menu.unity
+    guid: 707805e68c8569c4e8f1f12bfcfcd827
+  - enabled: 1
     path: Assets/Scene/SC Pixel Art Top Down - Basic.unity
     guid: 86e89bd9e4a9c5245a015cf17e3c0aae
   m_configObjects: {}
