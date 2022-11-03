@@ -10,14 +10,20 @@ public class EnemyLevel1 : MonoBehaviour, IEnemyFactory
     private GameObject meleeEnemy;
     [SerializeField]
     private GameObject rangeEnemy;
-    private ObjectPool<GameObject> poolMelee;
-    private ObjectPool<GameObject> poolRange;
+    public ObjectPool<GameObject> poolMelee;
+    public ObjectPool<GameObject> poolRange;
 
     private void Awake()
     {
         Instance = this;
+        SetObjectPool();
     }
     void Start()
+    {
+
+    }
+
+    public void SetObjectPool()
     {
         poolMelee = new ObjectPool<GameObject>(() =>
         {
@@ -32,7 +38,7 @@ public class EnemyLevel1 : MonoBehaviour, IEnemyFactory
         {
             Destroy(enemy);
         }, false, 10, 20
-        );
+);
 
         poolRange = new ObjectPool<GameObject>(() =>
         {
@@ -49,7 +55,6 @@ public class EnemyLevel1 : MonoBehaviour, IEnemyFactory
         }, false, 10, 20
 );
     }
-
 
 
     public GameObject MeleeEnemy(Vector3 position)

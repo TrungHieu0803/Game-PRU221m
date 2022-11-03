@@ -12,6 +12,9 @@ TagManager:
   - Bullet
   - Altar
   - Weapon
+  - Undefined
+  - Enemy
+  - Explosion
   layers:
   - Default
   - TransparentFX

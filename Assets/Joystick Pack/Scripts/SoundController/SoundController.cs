@@ -14,6 +14,8 @@ public class SoundController : MonoBehaviour
     private AudioClip bazooka;
     [SerializeField]
     private AudioClip tazer;
+    [SerializeField]
+    private AudioClip bazookaExplosion;
     public AudioClip enemyDeath;
 
     private AudioSource audioSource;
@@ -54,6 +56,11 @@ public class SoundController : MonoBehaviour
                 PlayAudioClip(tazer);
                 break;
         }
+    }
+
+    public void PlaySoundBazookaExplosion()
+    {
+        PlayAudioClip(bazookaExplosion);
     }
     public void playSound1()
     {

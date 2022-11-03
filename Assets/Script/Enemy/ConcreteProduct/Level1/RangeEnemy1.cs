@@ -17,19 +17,27 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
     [SerializeField]
     private float damage;
     private NavMeshAgent agent;
-    public bool showPath;
-    public bool showAhead;
     private Animator animator;
     private Vector3 currentPosition;
+    [SerializeField]
     private float maxHealth;
-    private float currentHealth;
+    public float currentHealth;
     private bool isDead;
     private float spellDuration;
     private ObjectPool<GameObject> poolSpell;
+    public EnemyType enemyType;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = 2;
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
     void Start()
     {
+        enemyType = EnemyType.RANGE;
         poolSpell = new ObjectPool<GameObject>(() =>
         {
             return Instantiate(spellPrefab);
@@ -46,13 +54,11 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
        );
         spellDuration = 0;
         isDead = false;
-        maxHealth = 100;
-        currentHealth = 100;
+        if(currentHealth == 0)
+        {
+            currentHealth = maxHealth;
+        }
         animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = 2;
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
 
     }
 
@@ -63,6 +69,17 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
         animator.SetFloat("Fly", agent.nextPosition.x - currentPosition.x);
         currentPosition = transform.position;
         Hit();
+        if (isDead)
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            currentHealth = -1;
+            agent.speed = 0;
+            animator.SetTrigger("Death");
+            SoundController.instance.playSound1();
+            Destroy(gameObject, 1f);
+            AmmoSpawner.Instance.SpawnRandomAmmo(currentPosition);
+            isDead = false;
+        }
     }
 
     public void UpdateHealthBar()
@@ -72,27 +89,28 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.tag == "Bullet" && !isDead)
         {
             Destroy(collision.gameObject);
             currentHealth -= collision.gameObject.GetComponent<Bullet>().damage;
             UpdateHealthBar();
             agent.speed = 1;
-            if (currentHealth < 0)
-            {
-                healthBarCanvas.enabled = false;    
-                isDead = true;
-            }
         }
-        if (isDead && currentHealth != -1)
+        if (collision.gameObject.tag == "Explosion" && !isDead)
         {
-            currentHealth = -1;
-            agent.speed = 0;
-            animator.SetTrigger("Death");
-            SoundController.instance.playSound1();
-            Destroy(gameObject, 1f);
-            AmmoSpawner.Instance.SpawnRandomAmmo(currentPosition);
+            
+            currentHealth -= collision.gameObject.GetComponent<Explosion>().explosionDamage;
+            UpdateHealthBar();
+            agent.speed = 1;
         }
+        if (currentHealth <= 0)
+        {
+            healthBarCanvas.enabled = false;
+            isDead = true;
+            GameManager.instance.UpdateKill();
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -116,7 +134,6 @@ public class RangeEnemy1 : MonoBehaviour, IRangeEnemy
                 spell.transform.position = PlayerController.Instance.transform.position;
                 spell.GetComponent<CircleCollider2D>().enabled = false;
                 spell.GetComponent<SpellEnemyRange1>().damage = damage;
-
             }
         }
        else

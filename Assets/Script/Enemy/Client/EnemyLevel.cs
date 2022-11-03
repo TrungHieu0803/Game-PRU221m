@@ -7,3 +7,9 @@ public enum EnemyLevel
     LEVEL1,
     LEVEL2
 }
+
+public enum EnemyType
+{
+    MELEE,
+    RANGE
+}

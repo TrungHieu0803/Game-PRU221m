@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 public class WeaponHolder : MonoBehaviour
 {
     public static WeaponHolder Instance;
     int totalWeapons = 1;
-    private int currentWeaponIndex;
-    private GameObject[] weapons;
+    public int currentWeaponIndex;
+    public GameObject[] weapons;
     [SerializeField]
     private TextMeshProUGUI textAmmo;
     // Start is called before the first frame update
@@ -17,19 +18,20 @@ public class WeaponHolder : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-    void Start()
-    {
         totalWeapons = gameObject.transform.childCount;
         weapons = new GameObject[totalWeapons];
 
-        for(int i = 0; i < totalWeapons; i++)
+        for (int i = 0; i < totalWeapons; i++)
         {
             weapons[i] = gameObject.transform.GetChild(i).gameObject;
             weapons[i].SetActive(false);
         }
         currentWeaponIndex = 0;
         weapons[currentWeaponIndex].SetActive(true);
+    }
+    void Start()
+    {
+        
 
     }
 
@@ -57,5 +59,15 @@ public class WeaponHolder : MonoBehaviour
     public void PickAmmo(int indexWeapon, int bullets)
     {
         weapons[indexWeapon].GetComponent<WeaponController>().SetBulletStock(bullets);
+    }
+
+    public void Shot(bool isShot)
+    {
+        weapons[currentWeaponIndex].GetComponent<WeaponController>().isShot = isShot;
+    }
+
+    public GameObject GetCurrentWeapon()
+    {
+        return weapons[currentWeaponIndex];
     }
 }

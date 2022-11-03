@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private Joystick joystick;
     [SerializeField]
     private Image healthBarSprite;
+    [SerializeField]
+    private float detectRange;
     public GameObject weapon;
     private float maxHealth;
     public float currentHealth;
@@ -23,15 +25,19 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         maxHealth = 100;
-        currentHealth = maxHealth;
+        if(currentHealth == 0)
+        {
+            currentHealth = maxHealth;
+        }
         animator = GetComponent<Animator>();
-        weapon = GameObject.FindGameObjectWithTag("Weapon");
+        
     }
 
 
     private void Update()
     {
         Vector2 dir = Vector2.zero;
+        weapon = WeaponHolder.Instance.GetCurrentWeapon();
         if (joystick.Horizontal < -0.5f)
         {
             dir.x = -1;
@@ -75,5 +81,25 @@ public class PlayerController : MonoBehaviour
     private void UpdateHealthBar()
     {
         healthBarSprite.fillAmount = currentHealth / maxHealth;
+    }
+
+    public GameObject GetClosestEnemy()
+    {
+        GameObject closestEnemy = null;
+        float leastDistance = Mathf.Infinity;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectRange);
+        foreach( Collider2D collider in colliders)
+        {   
+            if(collider.gameObject.tag == "Enemy")
+            {
+                float remainingDistance = Vector3.Distance(transform.position, collider.transform.position);
+                if(remainingDistance < leastDistance)
+                {
+                    leastDistance = remainingDistance;
+                    closestEnemy = collider.gameObject;
+                }
+            }
+        }
+        return closestEnemy;
     }
 }

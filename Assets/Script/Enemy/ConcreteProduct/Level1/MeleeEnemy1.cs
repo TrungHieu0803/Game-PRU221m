@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class MeleeEnemy1 : MonoBehaviour, IMeleeEnemy
 {
-
     [SerializeField]
     private Image healthBarSprite;
     [SerializeField]
@@ -14,29 +13,36 @@ public class MeleeEnemy1 : MonoBehaviour, IMeleeEnemy
     [SerializeField]
     private float damage;
     private NavMeshAgent agent;
-    public bool showPath;
-    public bool showAhead;
     private Animator animator;
     private Vector3 currentPosition;
+    [SerializeField]
     private float maxHealth;
-    private float currentHealth;
+    public float currentHealth;
     private bool isDead;
     private bool isHit;
     private float spellDuration;
+    public EnemyType enemyType;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        spellDuration = 0f;
-        isHit = false;  
-        isDead = false;
-        maxHealth = 100;
-        currentHealth = 100;
-        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = 2;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        enemyType = EnemyType.MELEE;
+        spellDuration = 0f;
+        isHit = false;  
+        isDead = false;
+        if(currentHealth == 0)
+        {
+            currentHealth = maxHealth;
+        }
+        animator = GetComponent<Animator>();
 
     }
 
@@ -51,6 +57,17 @@ public class MeleeEnemy1 : MonoBehaviour, IMeleeEnemy
             Hit();
         }
         currentPosition = transform.position;
+        if (isDead)
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            currentHealth = -1;
+            agent.speed = 0;
+            animator.SetTrigger("Death");
+            SoundController.instance.playSound1();
+            Destroy(gameObject, 1.1f);
+            AmmoSpawner.Instance.SpawnRandomAmmo(currentPosition);
+            isDead = false;
+        }
     }
 
     public void UpdateHealthBar()
@@ -60,27 +77,26 @@ public class MeleeEnemy1 : MonoBehaviour, IMeleeEnemy
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.tag == "Bullet" && !isDead)
         {
             Destroy(collision.gameObject);
             currentHealth -= collision.gameObject.GetComponent<Bullet>().damage;
             UpdateHealthBar();
             agent.speed = 1;
-            if (currentHealth < 0)
-            {
-                healthBarCanvas.enabled = false;
-
-                isDead = true;
-            }
         }
-        if (isDead && currentHealth != -1)
+        if(collision.gameObject.tag == "Explosion" && !isDead)
         {
-            currentHealth = -1;
-            agent.speed = 0;
-            animator.SetTrigger("Death");
-            SoundController.instance.playSound1();
-            Destroy(gameObject, 1.1f);
-            AmmoSpawner.Instance.SpawnRandomAmmo(currentPosition);
+            
+            currentHealth -= collision.gameObject.GetComponent<Explosion>().explosionDamage;
+            UpdateHealthBar();
+            agent.speed = 1;
+        }
+        if (currentHealth <= 0)
+        {
+            healthBarCanvas.enabled = false;
+            isDead = true;
+            GameManager.instance.UpdateKill();
         }
     }
 

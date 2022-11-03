@@ -10,6 +10,8 @@ public class EnemyFactory
         {
             case EnemyLevel.LEVEL1:
                 return EnemyLevel1.Instance;
+            case EnemyLevel.LEVEL2:
+                return EnemyLevel2.Instance;
             default:
                 return null;
         }

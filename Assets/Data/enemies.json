@@ -1,0 +1,30 @@
+[
+  {
+    "positionX": 6.987149,
+    "positionY": 5.958966,
+    "currentHealth": 100.0,
+    "level": 1,
+    "type": "MELEE"
+  },
+  {
+    "positionX": 7.5545516,
+    "positionY": 6.07975626,
+    "currentHealth": 100.0,
+    "level": 1,
+    "type": "RANGE"
+  },
+  {
+    "positionX": -7.47627449,
+    "positionY": 4.59721565,
+    "currentHealth": 100.0,
+    "level": 1,
+    "type": "MELEE"
+  },
+  {
+    "positionX": -6.905652,
+    "positionY": 4.63401747,
+    "currentHealth": 100.0,
+    "level": 1,
+    "type": "RANGE"
+  }
+]
