@@ -63,7 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+<<<<<<< Updated upstream:Assets/Texture/the-kings-broad-arrow.jpg.meta
   cookieLightType: 0
+=======
+  cookieLightType: 1
+>>>>>>> Stashed changes:Assets/Texture/Enemies/Enemy 2/jumpStart_2.png.meta
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
