@@ -5,8 +5,9 @@ public class Ammo
 {
     public int weaponIndex;
     public GameObject Prefab;
-    [Range(0f, 100f)] public float Chance = 100f;
-
+    [Range(0f, 100f)] public float startChance = 100f;
+    [Range(0f, 100f)] public float finalChance = 100f;
+    [Range(0f, 100f)] public float chance = 100f;
     [HideInInspector] public double _weight;
 }
 
@@ -14,8 +15,8 @@ public class Ammo
 public class AmmoSpawner : MonoBehaviour
 {
     public static AmmoSpawner Instance;
-    [SerializeField] private Ammo[] ammo;
-
+    [SerializeField] 
+    public Ammo[] ammoes;
     private double accumulatedWeights;
     private System.Random rand = new System.Random();
 
@@ -23,13 +24,23 @@ public class AmmoSpawner : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        CalculateWeights();
+        
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < ammoes.Length; i++)
+        {
+            ammoes[i].chance = ammoes[i].startChance;
+        }
+        
     }
 
 
     public void SpawnRandomAmmo(Vector2 position)
     {
-        Ammo randomAmmo = ammo[GetRandomAmmoIndex()];
+        CalculateWeights();
+        Ammo randomAmmo = ammoes[GetRandomAmmoIndex()];
         
        if(randomAmmo.weaponIndex != -1)
         {
@@ -43,8 +54,8 @@ public class AmmoSpawner : MonoBehaviour
     {
         double r = rand.NextDouble() * accumulatedWeights;
 
-        for (int i = 0; i < ammo.Length; i++)
-            if (ammo[i]._weight >= r)
+        for (int i = 0; i < ammoes.Length; i++)
+            if (ammoes[i]._weight >= r)
                 return i;
 
         return 0;
@@ -53,9 +64,9 @@ public class AmmoSpawner : MonoBehaviour
     private void CalculateWeights()
     {
         accumulatedWeights = 0f;
-        foreach (Ammo a in ammo)
+        foreach (Ammo a in ammoes)
         {
-            accumulatedWeights += a.Chance;
+            accumulatedWeights += a.chance;
             a._weight = accumulatedWeights;
         }
     }

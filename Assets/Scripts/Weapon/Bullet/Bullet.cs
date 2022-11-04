@@ -15,7 +15,6 @@ public class Bullet : MonoBehaviour
         bullet_timer = gameObject.AddComponent<Timer>();
         bullet_timer.Duration = 6;
         bullet_timer.Run();
-
     }
 
     private void OnBecameInvisible()

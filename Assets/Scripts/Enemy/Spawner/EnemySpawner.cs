@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        CalculateWeights();
+        
         
     }
 
@@ -22,10 +22,16 @@ public class EnemySpawner : MonoBehaviour
     {
         enemyFactory = new EnemyFactory();
         altar = GameObject.FindGameObjectsWithTag("Altar");
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].chance = enemies[i].startChance;
+        }
+
     }
 
     public void Spawn()
     {
+        CalculateWeights();
         int randomAltar = Random.Range(0, altar.Length);
         EnemyInfo randomEnemy = enemies[GetRandomAmmoIndex()];
         switch (randomEnemy.enemy)
@@ -71,6 +77,8 @@ public class EnemySpawner : MonoBehaviour
 public class EnemyInfo
 {
     public Enemy enemy;
+    [Range(0f, 100f)] public float startChance = 100f;
+    [Range(0f, 100f)] public float finalChance = 100f;
     [Range(0f, 100f)] public float chance = 100f;
     [HideInInspector] public double _weight;
 }

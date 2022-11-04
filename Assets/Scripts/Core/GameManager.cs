@@ -17,15 +17,19 @@ public class GameManager : MonoBehaviour
     public bool isSave;
     private string path;
     private float survivedTime;
+    private float elapsedChangeIndex;
+    private float spawnDuration;
     private void Awake()
     {
         instance = this;
         enemyFactory = new EnemyFactory();
         path = $"{Application.persistentDataPath}/";
-        
+
     }
     void Start()
     {
+        spawnDuration = Constant.spawnDuration;
+        elapsedChangeIndex = 0f;
         //if (LevelLoader.Instance.isLoad)
         //{
         //    LoadGame();
@@ -37,13 +41,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        elapsedChangeIndex += Time.deltaTime;
+        if (elapsedChangeIndex > Constant.changeIndexTimeDuration)
+        {
+            ChangeGameIndex();
+            elapsedChangeIndex = 0f;
+        }
         survivedTime += Time.deltaTime;
         if (isSave)
         {
             SaveGame();
         }
         elapsedSpawnTime += Time.deltaTime;
-        if (elapsedSpawnTime >= 5)
+        if (elapsedSpawnTime >= spawnDuration )
         {
             EnemySpawner.Instance.Spawn();
             elapsedSpawnTime = 0f;
@@ -54,6 +64,44 @@ public class GameManager : MonoBehaviour
     {
         killedEnemies.text = (Int32.Parse(killedEnemies.text) + 1).ToString();
     }
+
+    #region Change game index
+    public void ChangeGameIndex()
+    {
+        if(spawnDuration > 1f)
+        {
+            spawnDuration -= Constant.reducedSpawnDuration;
+        }
+        var enemiesIndex = EnemySpawner.Instance.enemies;
+        var ammoesIndex = AmmoSpawner.Instance.ammoes;
+
+        for (int i = 0; i < ammoesIndex.Length; i++)
+        {
+            if (ammoesIndex[i].startChance > ammoesIndex[i].finalChance && ammoesIndex[i].chance > ammoesIndex[i].finalChance)
+            {
+                AmmoSpawner.Instance.ammoes[i].chance -= Constant.ammoSpawnPercentage / (i == 0 ? 1 : i);
+            }
+            else if(ammoesIndex[i].startChance < ammoesIndex[i].finalChance && ammoesIndex[i].chance < ammoesIndex[i].finalChance)
+            {
+                AmmoSpawner.Instance.ammoes[i].chance += Constant.ammoSpawnPercentage / (i == 0 ? 1 : i);
+            }
+        }
+
+        for (int i = 0; i < enemiesIndex.Length; i++)
+        {
+            if (enemiesIndex[i].startChance > enemiesIndex[i].finalChance && enemiesIndex[i].chance > enemiesIndex[i].finalChance)
+            {
+                EnemySpawner.Instance.enemies[i].chance -= Constant.enemySpawnPercentage / (i == 0 ? 1 : i);
+            }
+            else if (enemiesIndex[i].startChance < enemiesIndex[i].finalChance && enemiesIndex[i].chance < enemiesIndex[i].finalChance)
+            {
+                EnemySpawner.Instance.enemies[i].chance += Constant.enemySpawnPercentage / (i == 0 ? 1 : i);
+            }
+        }
+
+    }
+    #endregion
+
 
     #region Save game
     public void SaveGame()

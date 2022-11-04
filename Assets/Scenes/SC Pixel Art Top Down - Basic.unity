@@ -183,35 +183,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04ffdabf47220343b5f1733fff7c2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo:
+  ammoes:
   - weaponIndex: 0
     Prefab: {fileID: 3301716159068043347, guid: 52f9a69197f6e76499c780e6ae03d269,
       type: 3}
-    Chance: 5
+    startChance: 95
+    finalChance: 2
+    chance: 0
     _weight: 0
   - weaponIndex: 1
     Prefab: {fileID: 4642665796969426867, guid: 2d11cf304b10ece4691126a5960ccbad,
       type: 3}
-    Chance: 3
+    startChance: 60
+    finalChance: 10
+    chance: 0
     _weight: 0
   - weaponIndex: 2
     Prefab: {fileID: 5077457320396748064, guid: 59a0d0ebbfaa60042baa1b12e478d67b,
       type: 3}
-    Chance: 1.5
+    startChance: 5
+    finalChance: 50
+    chance: 0
     _weight: 0
   - weaponIndex: 3
     Prefab: {fileID: 1068864487252989537, guid: 4f30ba6c75ff2ee449fff86514fac4d6,
       type: 3}
-    Chance: 0.7
+    startChance: 0
+    finalChance: 60
+    chance: 0
     _weight: 0
   - weaponIndex: 4
     Prefab: {fileID: 4295830285807252697, guid: 58b854dc28691974bb8f8f35c50ddb1f,
       type: 3}
-    Chance: 0.3
+    startChance: 0
+    finalChance: 70
+    chance: 0
     _weight: 0
   - weaponIndex: -1
     Prefab: {fileID: 0}
-    Chance: 95
+    startChance: 98
+    finalChance: 98
+    chance: 98
     _weight: 0
 --- !u!1 &10453868
 GameObject:
@@ -27548,7 +27560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be95e6d6122cc4a4eb7680f2b5e787f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!1001 &990600910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46647,16 +46658,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - enemy: 0
+    startChance: 100
+    finalChance: 6
     chance: 100
     _weight: 0
   - enemy: 1
-    chance: 82.9
+    startChance: 90
+    finalChance: 6
+    chance: 100
     _weight: 0
   - enemy: 2
-    chance: 6.9
+    startChance: 0
+    finalChance: 90
+    chance: 100
     _weight: 0
   - enemy: 3
-    chance: 0
+    startChance: 5
+    finalChance: 95
+    chance: 100
     _weight: 0
 --- !u!1 &1894393610
 GameObject:
