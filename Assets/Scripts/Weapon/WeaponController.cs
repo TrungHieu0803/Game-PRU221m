@@ -21,7 +21,6 @@ public class WeaponController : MonoBehaviour
     public int bulletStock;
     private float elaspedSpawnTime;
     public bool isShot;
-    public GameObject target;
 
     private void Start()
     {

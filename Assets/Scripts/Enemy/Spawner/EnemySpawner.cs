@@ -26,12 +26,11 @@ public class EnemySpawner : MonoBehaviour
         {
             enemies[i].chance = enemies[i].startChance;
         }
-
+        CalculateWeights();
     }
 
     public void Spawn()
     {
-        CalculateWeights();
         int randomAltar = Random.Range(0, altar.Length);
         EnemyInfo randomEnemy = enemies[GetRandomAmmoIndex()];
         switch (randomEnemy.enemy)
@@ -58,10 +57,10 @@ public class EnemySpawner : MonoBehaviour
             if (enemies[i]._weight >= r)
                 return i;
 
-        return 0;
+        return GetRandomAmmoIndex();
     }
 
-    private void CalculateWeights()
+    public void CalculateWeights()
     {
         accumulatedWeights = 0f;
         foreach (EnemyInfo enemy in enemies)

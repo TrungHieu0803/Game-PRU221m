@@ -8,7 +8,7 @@ public class Ammo
     [Range(0f, 100f)] public float startChance = 100f;
     [Range(0f, 100f)] public float finalChance = 100f;
     [Range(0f, 100f)] public float chance = 100f;
-    [HideInInspector] public double _weight;
+     public double _weight;
 }
 
 
@@ -29,17 +29,17 @@ public class AmmoSpawner : MonoBehaviour
 
     private void Start()
     {
+       
         for (int i = 0; i < ammoes.Length; i++)
         {
             ammoes[i].chance = ammoes[i].startChance;
         }
-        
+        CalculateWeights();
     }
 
 
     public void SpawnRandomAmmo(Vector2 position)
     {
-        CalculateWeights();
         Ammo randomAmmo = ammoes[GetRandomAmmoIndex()];
         
        if(randomAmmo.weaponIndex != -1)
@@ -58,10 +58,10 @@ public class AmmoSpawner : MonoBehaviour
             if (ammoes[i]._weight >= r)
                 return i;
 
-        return 0;
+        return GetRandomAmmoIndex();
     }
 
-    private void CalculateWeights()
+    public void CalculateWeights()
     {
         accumulatedWeights = 0f;
         foreach (Ammo a in ammoes)

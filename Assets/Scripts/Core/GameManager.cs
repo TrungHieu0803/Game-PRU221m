@@ -30,10 +30,10 @@ public class GameManager : MonoBehaviour
     {
         spawnDuration = Constant.spawnDuration;
         elapsedChangeIndex = 0f;
-        //if (LevelLoader.Instance.isLoad)
-        //{
-        //    LoadGame();
-        //}
+        if (LevelLoader.Instance.isLoad)
+        {
+            LoadGame();
+        }
         isSave = false;
         elapsedSpawnTime = 0;
     }
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         if (elapsedSpawnTime >= spawnDuration )
         {
             EnemySpawner.Instance.Spawn();
+            EnemySpawner.Instance.Spawn();
             elapsedSpawnTime = 0f;
         }
     }
@@ -68,6 +69,8 @@ public class GameManager : MonoBehaviour
     #region Change game index
     public void ChangeGameIndex()
     {
+        EnemySpawner.Instance.CalculateWeights();
+        AmmoSpawner.Instance.CalculateWeights();
         if(spawnDuration > 1f)
         {
             spawnDuration -= Constant.reducedSpawnDuration;
@@ -126,7 +129,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Player player = new Player { positionX = PlayerController.Instance.transform.position.x, positionY = PlayerController.Instance.transform.position.y, currentHealth = PlayerController.Instance.currentHealth, survivedTime = survivedTime, killedEnemies = int.Parse(killedEnemies.ToString()) };
+        Player player = new Player { positionX = PlayerController.Instance.transform.position.x, positionY = PlayerController.Instance.transform.position.y, currentHealth = PlayerController.Instance.currentHealth, survivedTime = survivedTime, killedEnemies = 0 };
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
         foreach (var bullet in bullets)
         {
