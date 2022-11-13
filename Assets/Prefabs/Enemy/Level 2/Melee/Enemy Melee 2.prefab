@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -44025399
   m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d3c553322b13cc445bdb789bf550d4d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -106,8 +106,6 @@ MonoBehaviour:
   healthBarSprite: {fileID: 6528037670995328734}
   healthBarCanvas: {fileID: 6528037670831365597}
   damage: 10
-  showPath: 0
-  showAhead: 0
   maxHealth: 150
   currentHealth: 0
   spellPrefab: {fileID: 8532380871855168887, guid: 1c035d39f85e85146878b756825190d0,

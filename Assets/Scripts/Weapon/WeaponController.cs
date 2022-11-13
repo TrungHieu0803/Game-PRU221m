@@ -38,10 +38,7 @@ public class WeaponController : MonoBehaviour
             var closestEnemy = PlayerController.Instance.GetClosestEnemy();
             if(closestEnemy != null)
             {
-                Vector2 direction = closestEnemy.transform.position - transform.position;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion rotaiton = Quaternion.AngleAxis(angle, Vector3.forward);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotaiton, 1000);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Helper.GetRotation(transform.position, closestEnemy.transform.position), 1000);
             }
             SpawnBullet();
         }

@@ -17,6 +17,7 @@ public class Smoke : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             PlayerController.Instance.currentHealth -= spellDamage;
+            Vibration.Vibrate(10);
         }
     }
 

@@ -16,6 +16,8 @@ public class SoundController : MonoBehaviour
     private AudioClip tazer;
     [SerializeField]
     private AudioClip bazookaExplosion;
+    [SerializeField]
+    private AudioClip tazerLighting;
     public AudioClip enemyDeath;
 
     private AudioSource audioSource;
@@ -61,6 +63,10 @@ public class SoundController : MonoBehaviour
     public void PlaySoundBazookaExplosion()
     {
         PlayAudioClip(bazookaExplosion);
+    }
+    public void PlaySoundTazerLighting()
+    {
+        PlayAudioClip(tazerLighting);
     }
     public void playSound1()
     {

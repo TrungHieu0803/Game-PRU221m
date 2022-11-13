@@ -8,14 +8,14 @@ public class Ammo
     [Range(0f, 100f)] public float startChance = 100f;
     [Range(0f, 100f)] public float finalChance = 100f;
     [Range(0f, 100f)] public float chance = 100f;
-     public double _weight;
+    public double _weight;
 }
 
 
 public class AmmoSpawner : MonoBehaviour
 {
     public static AmmoSpawner Instance;
-    [SerializeField] 
+    [SerializeField]
     public Ammo[] ammoes;
     private double accumulatedWeights;
     private System.Random rand = new System.Random();
@@ -24,15 +24,17 @@ public class AmmoSpawner : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        
+
     }
 
     private void Start()
     {
-       
-        for (int i = 0; i < ammoes.Length; i++)
+        if (!StartMenuController.Instance.isLoad)
         {
-            ammoes[i].chance = ammoes[i].startChance;
+            for (int i = 0; i < ammoes.Length; i++)
+            {
+                ammoes[i].chance = ammoes[i].startChance;
+            }
         }
         CalculateWeights();
     }
@@ -41,13 +43,19 @@ public class AmmoSpawner : MonoBehaviour
     public void SpawnRandomAmmo(Vector2 position)
     {
         Ammo randomAmmo = ammoes[GetRandomAmmoIndex()];
-        
-       if(randomAmmo.weaponIndex != -1)
+
+        if (randomAmmo.weaponIndex != -1)
         {
-            GameObject ammo =  Instantiate<GameObject>(randomAmmo.Prefab, position, Quaternion.identity, transform);
+            GameObject ammo = Instantiate<GameObject>(randomAmmo.Prefab, position, Quaternion.identity, transform);
             ammo.GetComponent<AmmoController>().weaponIndex = randomAmmo.weaponIndex;
         }
-       
+    }
+
+    public void SpawnAmmoWithIndex(Vector2 position, int ammoIndex)
+    {
+        Ammo randomAmmo = ammoes[ammoIndex];
+        GameObject ammo = Instantiate<GameObject>(randomAmmo.Prefab, position, Quaternion.identity, transform);
+        ammo.GetComponent<AmmoController>().weaponIndex = randomAmmo.weaponIndex;
     }
 
     private int GetRandomAmmoIndex()

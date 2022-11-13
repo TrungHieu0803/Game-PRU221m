@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 38657825953555593}
   m_Layer: 0
   m_Name: Tazer Ammo
-  m_TagString: Untagged
+  m_TagString: Ammo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

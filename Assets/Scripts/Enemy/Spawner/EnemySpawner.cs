@@ -14,17 +14,18 @@ public class EnemySpawner : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        
-        
     }
 
     private void Start()
     {
         enemyFactory = new EnemyFactory();
         altar = GameObject.FindGameObjectsWithTag("Altar");
-        for (int i = 0; i < enemies.Length; i++)
+        if (!StartMenuController.Instance.isLoad)
         {
-            enemies[i].chance = enemies[i].startChance;
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                enemies[i].chance = enemies[i].startChance;
+            }
         }
         CalculateWeights();
     }
@@ -43,6 +44,9 @@ public class EnemySpawner : MonoBehaviour
                 break;
             case Enemy.MELEE2:
                 enemyFactory.CreateFactory(EnemyLevel.LEVEL2).MeleeEnemy(altar[randomAltar].transform.position);
+                break;
+            case Enemy.RANGE2:
+                enemyFactory.CreateFactory(EnemyLevel.LEVEL2).RangeEnemy(altar[randomAltar].transform.position);
                 break;
             default:
                 break;

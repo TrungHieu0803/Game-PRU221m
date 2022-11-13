@@ -22,6 +22,7 @@ public class Explosion : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             SoundController.instance.PlaySoundBazookaExplosion();
+            Helper.EnemyReceiveDamage(explosionDamage, collision);
         }
     }
 }

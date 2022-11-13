@@ -13,8 +13,10 @@ public class BazookaBullet : Bullet
     {
         if(collision.gameObject.tag == "Enemy")
         {
+            Destroy(gameObject);
             GameObject explosion =  Instantiate<GameObject>(explosionPrefab, transform.position, Quaternion.identity);
-            explosion.GetComponent<Explosion>().explosionDamage = explosionDamage; 
+            explosion.GetComponent<Explosion>().explosionDamage = explosionDamage;
+            Helper.EnemyReceiveDamage(damage, collision);
         }
     }
 }
