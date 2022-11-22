@@ -19816,7 +19816,7 @@ MonoBehaviour:
   bulletDamge: 30
   bulletSpeed: 20
   weapons: 1
-  bulletStock: 20
+  bulletStock: 100
   isShot: 0
 --- !u!212 &211248096
 SpriteRenderer:
@@ -23540,7 +23540,7 @@ MonoBehaviour:
   bulletDamge: 70
   bulletSpeed: 13
   weapons: 2
-  bulletStock: 0
+  bulletStock: 100
   isShot: 0
 --- !u!212 &526921486
 SpriteRenderer:
@@ -50373,7 +50373,7 @@ MonoBehaviour:
   bulletDamge: 60
   bulletSpeed: 15
   weapons: 3
-  bulletStock: 0
+  bulletStock: 100
   isShot: 0
 --- !u!212 &1983214445
 SpriteRenderer:
